@@ -2,7 +2,9 @@ package com.example.sql
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.ListView
 import android.widget.TextView
 import com.example.sql.db.MuDbManager
 
@@ -11,6 +13,8 @@ import com.example.sql.db.MuDbManager
 class MainActivity : AppCompatActivity() {
 
     val myDbManager = MuDbManager(this)
+
+    var nameList = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         val text = findViewById<TextView>(R.id.text)
         val text_2 = findViewById<TextView>(R.id.text1)
         val but_2 = findViewById<Button>(R.id.button2)
-        val result = findViewById<TextView>(R.id.textView)
+        val List = findViewById<ListView>(R.id.textView)
 
         but.setOnClickListener {
 
@@ -30,12 +34,16 @@ class MainActivity : AppCompatActivity() {
            
         }
         but_2.setOnClickListener {
-            result.text = ""
+
             val dataList = myDbManager.readDbDate()
             for (item in dataList)
             {
-                result.append(item)
-                result.append("\n")
+                nameList.add("$item \n")
+
+                List.adapter = ArrayAdapter(
+                    this,
+                    R.layout.text_color_white, nameList
+                )
             }
         }
     }
